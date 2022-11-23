@@ -1,12 +1,12 @@
-name: Build production to Kuroco front
+name: Build development to Kuroco front
 on:
   push:
     branches:
-      - main
+      - develop
   issue_comment:
     types: [created, edited]
   workflow_dispatch:
-    branches: [ main ]
+    branches: [ develop ]
 env:
   NUXT_ENV_BASE_URL: ${{secrets.NUXT_ENV_BASE_URL}}
 jobs:
@@ -26,6 +26,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ steps.get_branch.outputs.branch }}
+      - name: Copy kuroco_front.json
+        run: cp static/kuroco_front_dev.json static/kuroco_front.json
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
@@ -33,9 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build-prod
+        run: npm run build
       - name: Generate
-        run: npm run generate-prod
+        run: npm run generate
         # - name: Zip artifact for upload
         #  run: cd dist && zip ../dist.zip . -r
       - name: Archive Production Artifact
@@ -61,6 +63,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+      - name: Copy kuroco_front.json
+        run: cp static/kuroco_front_dev.json static/kuroco_front.json
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
@@ -68,9 +72,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build-prod
+        run: npm run build
       - name: Generate
-        run: npm run generate-prod
+        run: npm run generate
         # - name: Zip artifact for upload
         #  run: cd dist && zip ../dist.zip . -r
       - name: Archive Production Artifact

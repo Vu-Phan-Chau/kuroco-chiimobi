@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Header from '~/components/Header.vue'
+import Header from '~/components/header/index.vue'
 
 export default Vue.extend({
   name: 'IndexPage',
